@@ -3,19 +3,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dev-stedi-matthew
+  name: prod-stedi-matthew
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dev-stedi-matthew
+      app: prod-stedi-matthew
   template:
     metadata:
       labels:
-        app: dev-stedi-matthew
+        app: prod-stedi-matthew
     spec:
       containers:
-        - name: dev-stedi-matthew
+        - name: prod-stedi-matthew
           image: gcr.io/cubs-consulting/stedi # This image needs to refer 
           env:
             - name: REDIS_PASSWORD
@@ -24,7 +24,7 @@ spec:
                   name: redis-secrets-prod
                   key: REDIS_PASS
             - name: REDIS_HOST
-              value: "redis-dev-stedi-matthew"
+              value: "redis-prod-stedi-matthew"
             - name: REDIS_PORT
               value: "6379"
             - name: REDIS_DB
@@ -55,10 +55,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dev-stedi-matthew-nodeport
+  name: prod-stedi-matthew-nodeport
 spec:
   selector:
-    app: dev-stedi-matthew
+    app: prod-stedi-matthew
   type: NodePort
   ports:
     - port: 80
@@ -67,10 +67,10 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dev-stedi-matthew-ingress
+  name: prod-stedi-matthew-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: dev-stedi-matthew-public # not yet created before applying the yaml
-    networking.gke.io/managed-certificates: dev-stedi-matthew-certificate
+    kubernetes.io/ingress.global-static-ip-name: prod-stedi-matthew-public # not yet created before applying the yaml
+    networking.gke.io/managed-certificates: prod-stedi-matthew-certificate
     # kubernetes.io/ingress.allow-http: "false"
 spec:
   rules:
@@ -80,14 +80,14 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: dev-stedi-matthew-nodeport # this needs to match line 53
+            name: prod-stedi-matthew-nodeport # this needs to match line 53
             port:
               number: 80
 ---
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
-  name: dev-stedi-matthew-certificate # this needs to match line 68
+  name: prod-stedi-matthew-certificate # this needs to match line 68
 spec:
   domains:
     - matthew.cit262.com # this is a dns record that that has not been created
