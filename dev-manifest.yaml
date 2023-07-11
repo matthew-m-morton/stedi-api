@@ -50,7 +50,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: matthew-twilio-dev
-                  key: twilio_account_sid
+                  key: twilio_token
             - name: TWILIO_AUTH_TOKEN
               valueFrom:
                 secretKeyRef:
