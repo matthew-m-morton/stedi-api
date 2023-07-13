@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: prod-stedi-matthew
-          image: gcr.io/cubs-consulting/stedi # This image needs to refer 
+          image: us-docker.pkg.dev/group3-iam-project/matthew-api/api-tests:latest # This image needs to refer 
           env:
             - name: REDIS_PASSWORD
               valueFrom:
