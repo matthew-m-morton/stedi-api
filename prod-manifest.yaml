@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: prod-stedi-matthew
-          image: us-docker.pkg.dev/group3-iam-project/matthew-api/api-tests:latest # This image needs to refer 
+          image: us-docker.pkg.dev/group3-iam-project/matthew-api/api-tests:latest # This image needs to refer
           env:
             - name: REDIS_PASSWORD
               valueFrom:
@@ -32,7 +32,7 @@ spec:
             - name: KAFKA_BROKER
               value: "localhost:9092"
             - name: TWILIO_AUTH_TOKEN
-              valueForm:
+              valueFrom:
                 secretKeyRef:
                   name: matthew-twilio-dev
                   key: twilio_token
@@ -74,15 +74,15 @@ metadata:
     # kubernetes.io/ingress.allow-http: "false"
 spec:
   rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: prod-stedi-matthew-nodeport # this needs to match line 53
-            port:
-              number: 80
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prod-stedi-matthew-nodeport # this needs to match line 53
+                port:
+                  number: 80
 ---
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
@@ -90,5 +90,5 @@ metadata:
   name: prod-stedi-matthew-certificate # this needs to match line 68
 spec:
   domains:
-    - matthew.cit262.com # this is a dns record that that has not been created
+    - matthew.cit262.com # this is a dns record that has not been created
     
